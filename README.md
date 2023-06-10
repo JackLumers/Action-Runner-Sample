@@ -1,12 +1,14 @@
 # Endless-Runner-Sample
-Runner sample that I made as a test task project for my employment opportunity.
+Runner sample that I made as a test task project for my employment opportunity. 
+
+Done in 2 days using parts of code from my other sample projects. Some refactoring is needed, but overall good.
 
 # Features
 * Android support;
 * Player and world repositioning, so no problems with large position values and floating point precision.
 * Object pooling;
 * Basic random chunks generation;
-* Basic Scriptable Object architecture;
+* Basic Scriptable Object architecture (partly, because of time constraints);
 
 # Used assets
 * [Cinemachine](https://docs.unity3d.com/Packages/com.unity.cinemachine@2.3/manual/index.html) - Simple and flexible camera control;
