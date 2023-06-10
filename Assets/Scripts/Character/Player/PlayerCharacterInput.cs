@@ -6,7 +6,7 @@ namespace Character.Player
     public class PlayerCharacterInput : MonoBehaviour
     {
         [SerializeField] private float _maxShotDistance = 100f;
-        [SerializeField] private LayerMask _enemiesLayer;
+        [SerializeField] private LayerMask _canFireLayer;
         [Space] [SerializeField] private bool _debugMode;
         
         private Camera _playerViewCamera;
@@ -38,7 +38,7 @@ namespace Character.Player
                 var screenPoint = _playerInputActions.RunnerActionMap.Look.ReadValue<Vector2>();
                 var rayFromScreenPoint = _playerViewCamera.ScreenPointToRay(screenPoint);
                 
-                if (Physics.Raycast(rayFromScreenPoint, out var hitInfo, _maxShotDistance, _enemiesLayer))
+                if (Physics.Raycast(rayFromScreenPoint, out var hitInfo, _maxShotDistance, _canFireLayer))
                 {
                     var hitPoint = hitInfo.point;
                     

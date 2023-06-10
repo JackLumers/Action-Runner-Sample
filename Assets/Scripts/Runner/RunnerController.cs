@@ -1,22 +1,18 @@
-﻿using Character;
-using Character.Player;
+﻿using Character.Player;
 using Cinemachine;
-using ReferenceVariables;
-using Runner.EnemiesSpawn;
-using UI;
+using Runner.ChunkGeneration;
 using UnityEngine;
 
 namespace Runner
 {
     public class RunnerController : MonoBehaviour
     {
-        [SerializeField] private IntVariable _scoreVariable;
-        
-        [SerializeField] private CinemachineVirtualCamera _playerViewCamera;
-        [SerializeField] private EnemiesSpawnDirector _enemiesSpawnDirector;
         [SerializeField] private PlayerCharacter _playerCharacterPrefab;
         [SerializeField] private Transform _playerSpawnPoint;
-        [SerializeField] private GameUiController _gameUiController;
+
+        [SerializeField] private CinemachineVirtualCamera _playerViewCamera;
+
+        [SerializeField] private ChunkManager _chunkManager;
         
         private PlayerCharacter _playerCharacterInstance;
         private Transform _playerCharacterTransform;
@@ -30,21 +26,7 @@ namespace Runner
             _playerViewCamera.LookAt = _playerCharacterTransform;
             _playerViewCamera.gameObject.SetActive(true);
 
-            _enemiesSpawnDirector.Init(_playerCharacterInstance.transform, Camera.main);
-            _enemiesSpawnDirector.EnableSpawn(true);
-
-            _scoreVariable.Value = 0;
-            
-            _gameUiController.ShowGameOverScreen(false);
-            _gameUiController.ShowGameStatsScreen(true);
-            
-            _gameUiController.RestartButtonClicked += OnRestartClicked;
-            _enemiesSpawnDirector.EnemyDied += OnEnemyDied;
-        }
-
-        private void OnEnemyDied(BaseCharacter enemy)
-        {
-            _scoreVariable.Value++;
+            _chunkManager.Init(_playerCharacterTransform);
         }
 
         public void OnPlayerDied()
@@ -54,33 +36,14 @@ namespace Runner
 
         private void OnRestartClicked()
         {
-            _scoreVariable.Value = 0;
-
-            _gameUiController.ShowGameOverScreen(false);
-            _gameUiController.ShowGameStatsScreen(true);
-
             _playerCharacterTransform.position = _playerSpawnPoint.position;
             _playerCharacterInstance.gameObject.SetActive(true);
             _playerCharacterInstance.Reinit();
-
-            _enemiesSpawnDirector.ClearEnemies();
-            _enemiesSpawnDirector.EnableSpawn(true);
         }
 
         private void GameOver()
         {
-            _gameUiController.ShowGameOverScreen(true);
-            _gameUiController.ShowGameStatsScreen(false);
-            
             _playerCharacterInstance.gameObject.SetActive(false);
-            
-            _enemiesSpawnDirector.EnableSpawn(false);
-        }
-
-        private void OnDestroy()
-        {
-            _enemiesSpawnDirector.EnemyDied -= OnEnemyDied;
-            _gameUiController.RestartButtonClicked -= OnRestartClicked;
         }
     }
 }

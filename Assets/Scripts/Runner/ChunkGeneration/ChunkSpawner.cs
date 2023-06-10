@@ -5,22 +5,28 @@ using ReferenceVariables;
 using ToolBox.Pools;
 using UnityEngine;
 
-namespace ChunkGeneration
+namespace Runner.ChunkGeneration
 {
-    public class ChunkGenerator : MonoBehaviour
+    public class ChunkSpawner : MonoBehaviour
     {
         private IntVariable _minEnemiesOnChunk;
         private IntVariable _maxEnemiesOnChunk;
         private FloatVariable _enemyHasCoverChance;
-        private Chunk _chunkPrefab;
+        [SerializeField] private Chunk _chunkPrefab;
         private Cover _coverPrefab;
         private List<BaseCharacter> _possibleEnemiesPrefabs;
 
         private System.Random _random = new();
         
-        public Chunk GenerateAndSpawn()
+        public Chunk Spawn()
+        {
+            return SpawnEmpty();
+        }
+
+        public Chunk SpawnEmpty()
         {
             var chunk = _chunkPrefab.gameObject.Reuse<Chunk>();
+            chunk.Init(new List<Cover>());
             return chunk;
         }
     }

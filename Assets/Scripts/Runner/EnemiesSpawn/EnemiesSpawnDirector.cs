@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using Character;
 using Cysharp.Threading.Tasks;
-using Globals;
 using ToolBox.Pools;
 using UnityEngine;
 
@@ -153,8 +152,7 @@ namespace Runner.EnemiesSpawn
             var ray = _playerViewCamera.ViewportPointToRay(new Vector3(spawnPointX, spawnPointY, 
                 _playerViewCamera.nearClipPlane));
             
-            if (Physics.Raycast(ray, out var hitInfo, 
-                    _playerViewCamera.farClipPlane, 1 << LayerMaskConstants.GroundLayer))
+            if (Physics.Raycast(ray, out var hitInfo, _playerViewCamera.farClipPlane))
             {
                 point = hitInfo.point;
                 return true;
