@@ -1,7 +1,7 @@
 # Endless-Runner-Sample
 "Runner" sample that I made as a test task project for my employment opportunity. 
 
-Done in 2 days using parts of code from my other sample projects. Some refactoring is needed, but overall good.
+Done in 2 days using parts of code from my other sample projects. Some refactoring is needed, but it would require exceeding time constraints.
 
 # Features
 * Android support;
