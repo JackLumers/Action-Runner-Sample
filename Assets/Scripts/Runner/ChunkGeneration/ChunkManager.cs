@@ -13,7 +13,7 @@ namespace Runner.ChunkGeneration
     public class ChunkManager : MonoBehaviour
     {
         // TODO: Add possibility to change in runtime
-        [Header("Don't change in runtime!")]
+        [Header("Doesn't support runtime change.")]
         [Tooltip("How many chunks are already prepared before player reached them. " +
                  "Including chunk where player spawned.")]
         [SerializeField]
@@ -39,55 +39,85 @@ namespace Runner.ChunkGeneration
             _transform = transform;
             _chunkSpawner = GetComponent<ChunkSpawner>();
 
-            for (int i = 0; i < NextChunksBuffer; i++)
-            {
+            for (int i = 0; i < NextChunksBuffer; i++) 
                 AddLastChunk();
-            }
+
+            for (int i = 0; i < PreviousChunksBuffer; i++) 
+                AddFirstChunk();
         }
 
         private void AddLastChunk()
         {
             if (ReferenceEquals(PlayerTransform, null))
-            {
-                throw new NullReferenceException("PlayerTransform can't be null");
-            }
-            
+                throw new NullReferenceException("PlayerTransform can't be null.");
+
             var newChunk = _chunkSpawner.Spawn();
-            newChunk.transform.SetParent(_transform, true);
+            var chunkNode = _activeChunks.Last;
+            Vector3 newChunkPosition;
 
-            var lastChunkNode = _activeChunks.Last;
-            Chunk lastChunk = null;
-
-            if (!ReferenceEquals(lastChunkNode, null))
+            if (!ReferenceEquals(chunkNode, null))
             {
-                lastChunk = lastChunkNode.Value;
-            }
-
-            if (!ReferenceEquals(lastChunk, null))
-            {
-                var lastChunkEndPosition = lastChunk.End.position;
-                var lastChunkPosition = lastChunk.transform.position;
+                var chunk = chunkNode.Value;
+                var chunkPosition = chunk.transform.position;
                 
-                var newChunkPosition = new Vector3(lastChunkEndPosition.x + newChunk.BoxCollider.size.x / 2, lastChunkPosition.y,
-                    lastChunkPosition.z);
-
-                newChunk.transform.position = newChunkPosition;
+                newChunkPosition = new Vector3(
+                    chunk.End.position.x + newChunk.BoxCollider.size.x / 2, 
+                    chunkPosition.y, chunkPosition.z);
             }
             else
             {
                 var playerPosition = PlayerTransform.position;
                 
-                var newChunkPosition = new Vector3(playerPosition.x, 
-                    playerPosition.y - newChunk.Up.position.y, playerPosition.z);
-                
-                newChunk.transform.position = newChunkPosition;
+                 newChunkPosition = new Vector3(playerPosition.x, 
+                     playerPosition.y - newChunk.Up.position.y, 
+                     playerPosition.z);
             }
+            
+            var newChunkTransform = newChunk.transform;
+            newChunkTransform.SetParent(_transform, true);
+            newChunkTransform.position = newChunkPosition;
 
             newChunk.PlayerLeftChunk += OnPlayerLeftChunk;
             
             _activeChunks.AddLast(new LinkedListNode<Chunk>(newChunk));
         }
 
+        private void AddFirstChunk()
+        {
+            if (ReferenceEquals(PlayerTransform, null))
+                throw new NullReferenceException("PlayerTransform can't be null.");
+
+            var newChunk = _chunkSpawner.Spawn();
+            var chunkNode = _activeChunks.First;
+            Vector3 newChunkPosition;
+
+            if (!ReferenceEquals(chunkNode, null))
+            {
+                var chunk = chunkNode.Value;
+                var chunkPosition = chunk.transform.position;
+                
+                newChunkPosition = new Vector3(
+                    chunk.Start.position.x - newChunk.BoxCollider.size.x / 2, 
+                    chunkPosition.y, chunkPosition.z);
+            }
+            else
+            {
+                var playerPosition = PlayerTransform.position;
+                
+                newChunkPosition = new Vector3(playerPosition.x, 
+                    playerPosition.y - newChunk.Up.position.y, 
+                    playerPosition.z);
+            }
+            
+            var newChunkTransform = newChunk.transform;
+            newChunkTransform.SetParent(_transform, true);
+            newChunkTransform.position = newChunkPosition;
+
+            newChunk.PlayerLeftChunk += OnPlayerLeftChunk;
+            
+            _activeChunks.AddFirst(new LinkedListNode<Chunk>(newChunk));
+        }
+        
         private void RemoveFirstChunk()
         {
             var chunkToRemoveNode = _activeChunks.First;

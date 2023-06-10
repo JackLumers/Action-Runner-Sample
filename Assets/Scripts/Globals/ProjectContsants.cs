@@ -7,9 +7,6 @@
         public const string VariablesAssetMenuName = "Variables";
         public const string GameEventsAssetMenuName = "GameEvents";
 
-        public const string PlayerTag = "Player";
-        public const string EnemyTag = "Enemy";
-        
         public const int TargetFrameRate = 60;
     }
 }
