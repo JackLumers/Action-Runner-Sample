@@ -6,7 +6,7 @@ Runner sample that I made as a test task project for my employment opportunity.
 * Random chunks generation;
 * Player and world repositioning, so no problems with large position values and floating point precision.
 * Object pooling;
-* Scriptable Object achitecture;
+* Basic Scriptable Object architecture;
 
 # Used assets
 * [Cinemachine](https://docs.unity3d.com/Packages/com.unity.cinemachine@2.3/manual/index.html) - Simple and flexible camera control;
