@@ -16,6 +16,7 @@ namespace Character
         [SerializeField] private Animator _animator;
         [SerializeField] private MeshRenderer _modelMeshRenderer;
         [SerializeField] private Collider _collider;
+        [field:SerializeField] public Transform WeaponShotTransform { get; private set; }
 
         private Rigidbody _rigidbody;
         private CharacterMovingController _characterMovingController;

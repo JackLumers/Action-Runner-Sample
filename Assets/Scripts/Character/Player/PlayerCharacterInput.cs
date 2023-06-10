@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Character.Player
 {
@@ -22,6 +23,8 @@ namespace Character.Player
 
             _playerCharacter = GetComponent<PlayerCharacter>();
             _playerInputActions = new PlayerInputActions();
+            
+            _playerInputActions.RunnerActionMap.Fire.performed += OnFirePerformed;
         }
 
         private void OnEnable()
@@ -29,11 +32,9 @@ namespace Character.Player
             _playerInputActions.Enable();
         }
 
-        private void FixedUpdate()
+        private void OnFirePerformed(InputAction.CallbackContext obj)
         {
-            var fireActionValue = _playerInputActions.RunnerActionMap.Fire.ReadValue<float>();
-            
-            if (fireActionValue > 0)
+            if (obj.ReadValue<float>() > 0)
             {
                 var screenPoint = _playerInputActions.RunnerActionMap.Look.ReadValue<Vector2>();
                 var rayFromScreenPoint = _playerViewCamera.ScreenPointToRay(screenPoint);
@@ -49,6 +50,27 @@ namespace Character.Player
                 }
             }
         }
+
+        // private void FixedUpdate()
+        // {
+        //     var fireActionValue = _playerInputActions.RunnerActionMap.Fire.ReadValue<float>();
+        //     
+        //     if (fireActionValue > 0)
+        //     {
+        //         var screenPoint = _playerInputActions.RunnerActionMap.Look.ReadValue<Vector2>();
+        //         var rayFromScreenPoint = _playerViewCamera.ScreenPointToRay(screenPoint);
+        //         
+        //         if (Physics.Raycast(rayFromScreenPoint, out var hitInfo, _maxShotDistance, _canFireLayer))
+        //         {
+        //             var hitPoint = hitInfo.point;
+        //             
+        //             SetDebugPointer(hitPoint, _debugMode);
+        //
+        //             _playerCharacter.LookingPoint = hitPoint;
+        //             _playerCharacter.FireSelectedWeapon();
+        //         }
+        //     }
+        // }
 
         private void OnDisable()
         {

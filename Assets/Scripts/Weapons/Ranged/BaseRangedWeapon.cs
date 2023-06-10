@@ -1,4 +1,4 @@
-﻿using Weapons.Ranged.SniperRifle;
+﻿using Weapons.Ranged.Pistol;
 
 namespace Weapons.Ranged
 {

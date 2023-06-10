@@ -36,7 +36,7 @@ namespace Weapons
         {
             _movingCts?.Cancel();
             _movingCts = new CancellationTokenSource();
-            
+
             MoveProcess(target, speed, reached, _movingCts.Token).Forget();
         }
         

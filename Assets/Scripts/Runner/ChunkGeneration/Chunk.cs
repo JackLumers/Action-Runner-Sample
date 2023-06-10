@@ -13,7 +13,6 @@ namespace Runner.ChunkGeneration
         [field: SerializeField] public Transform Start { get; private set; }
         [field: SerializeField] public Transform End { get; private set; }
         [field: SerializeField] public Transform Up { get; private set; }
-        
         [field: SerializeField] public BoxCollider BoxCollider { get; private set; }
 
         private List<Cover> _covers;

@@ -15,6 +15,6 @@ MonoBehaviour:
   _characterStats:
     Faction: 1
     Health: 5
-    MoveSpeed: 500
-    MaxMoveSpeed: 10
+    MoveSpeed: 100
+    MaxMoveSpeed: 5
     InvincibilityOnDamageMillis: 500

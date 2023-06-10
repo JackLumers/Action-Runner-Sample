@@ -2,7 +2,7 @@
 using Character;
 using ToolBox.Pools;
 using UnityEngine;
-using Weapons.Ranged.SniperRifle;
+using Weapons.Ranged.Pistol;
 
 namespace Weapons.Ranged.AutoRifle
 {
@@ -28,7 +28,7 @@ namespace Weapons.Ranged.AutoRifle
                 var damageZone = WeaponSettings.DamageZonePrefab.gameObject.Reuse<DamageZone>();
                 damageZone.Init(WeaponSettings.Damage, Owner.Faction);
 
-                var ownerPosition = OwnerTransform.position;
+                var ownerPosition = OwnerWeaponShotTransform.position;
                 var shotRelativePosition = ownerPosition + direction * RangedWeaponSettings.MaxShotDistance;
 
                 var maxAngleOffset = AutoRifleSettings.DispersionAngle / 2;

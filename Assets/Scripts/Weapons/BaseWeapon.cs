@@ -11,7 +11,7 @@ namespace Weapons
     {
         protected WeaponSettings WeaponSettings;
         protected BaseCharacter Owner;
-        protected Transform OwnerTransform;
+        protected Transform OwnerWeaponShotTransform;
         protected BaseWeaponReference WeaponReference;
         
         private CancellationTokenSource _cooldownCts;
@@ -31,7 +31,7 @@ namespace Weapons
         public virtual void SetOwner(BaseCharacter owner)
         {
             Owner = owner;
-            OwnerTransform = owner.transform;
+            OwnerWeaponShotTransform = owner.WeaponShotTransform;
             CanFire = true;
         }
 

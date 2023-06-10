@@ -7,8 +7,11 @@ using UnityEngine;
 namespace Runner.ChunkGeneration
 {
     /// <summary>
-    /// Creates and removes chunks based on player position.
+    /// Creates and removes chunks around player.
     /// </summary>
+    /// <remarks>
+    /// Doesn't support player moving direction change, assuming player moves only forward by X coordinate.
+    /// </remarks>
     [RequireComponent(typeof(ChunkSpawner))]
     public class ChunkManager : MonoBehaviour
     {
@@ -40,18 +43,18 @@ namespace Runner.ChunkGeneration
             _chunkSpawner = GetComponent<ChunkSpawner>();
 
             for (int i = 0; i < NextChunksBuffer; i++) 
-                AddLastChunk();
+                AddLastChunk(true);
 
             for (int i = 0; i < PreviousChunksBuffer; i++) 
-                AddFirstChunk();
+                AddFirstChunk(true);
         }
 
-        private void AddLastChunk()
+        private void AddLastChunk(bool isEmpty)
         {
             if (ReferenceEquals(PlayerTransform, null))
                 throw new NullReferenceException("PlayerTransform can't be null.");
 
-            var newChunk = _chunkSpawner.Spawn();
+            var newChunk = isEmpty ? _chunkSpawner.SpawnEmpty() : _chunkSpawner.Spawn();
             var chunkNode = _activeChunks.Last;
             Vector3 newChunkPosition;
 
@@ -81,13 +84,13 @@ namespace Runner.ChunkGeneration
             
             _activeChunks.AddLast(new LinkedListNode<Chunk>(newChunk));
         }
-
-        private void AddFirstChunk()
+        
+        private void AddFirstChunk(bool isEmpty)
         {
             if (ReferenceEquals(PlayerTransform, null))
                 throw new NullReferenceException("PlayerTransform can't be null.");
 
-            var newChunk = _chunkSpawner.Spawn();
+            var newChunk = isEmpty ? _chunkSpawner.SpawnEmpty() : _chunkSpawner.Spawn();
             var chunkNode = _activeChunks.First;
             Vector3 newChunkPosition;
 
@@ -130,16 +133,13 @@ namespace Runner.ChunkGeneration
             }
         }
         
-        /// <remarks>
-        /// TODO: Support player moving direction change
-        /// </remarks>
         private void OnPlayerLeftChunk(Chunk chunk)
         {
             Debug.Log("Left");
             
             chunk.PlayerLeftChunk -= OnPlayerLeftChunk;
             RemoveFirstChunk();
-            AddLastChunk();
+            AddLastChunk(false);
         }
     }
 }

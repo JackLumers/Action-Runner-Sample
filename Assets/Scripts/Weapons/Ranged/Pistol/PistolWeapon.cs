@@ -2,7 +2,7 @@
 using ToolBox.Pools;
 using UnityEngine;
 
-namespace Weapons.Ranged.SniperRifle
+namespace Weapons.Ranged.Pistol
 {
     public class PistolWeapon : BaseRangedWeapon
     {
@@ -18,7 +18,7 @@ namespace Weapons.Ranged.SniperRifle
             var damageZone = WeaponSettings.DamageZonePrefab.gameObject.Reuse<DamageZone>();
             damageZone.Init(WeaponSettings.Damage, Owner.Faction);
 
-            var ownerPosition = OwnerTransform.position;
+            var ownerPosition = OwnerWeaponShotTransform.position;
             var shotRelativePosition =
                 ownerPosition + direction * RangedWeaponSettings.MaxShotDistance;
             

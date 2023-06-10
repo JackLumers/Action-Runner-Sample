@@ -2,12 +2,12 @@
 using Globals;
 using UnityEngine;
 
-namespace Weapons.Ranged.SniperRifle
+namespace Weapons.Ranged.Pistol
 {
     [CreateAssetMenu(menuName = ProjectConstants.ScriptableObjectsAssetMenuName + 
                                 "/" + ProjectConstants.WeaponsMenuName + 
-                                "/Create new " + nameof(PostolWeaponReference))]
-    public class PostolWeaponReference : BaseWeaponReference
+                                "/Create new " + nameof(PistolWeaponReference))]
+    public class PistolWeaponReference : BaseWeaponReference
     {
         [SerializeField] protected RangedWeaponSettings RangedWeaponSettings;
         
