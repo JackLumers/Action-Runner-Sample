@@ -3,9 +3,9 @@ Runner sample that I made as a test task project for my employment opportunity.
 
 # Features
 * Android support;
-* Random chunks generation;
 * Player and world repositioning, so no problems with large position values and floating point precision.
 * Object pooling;
+* Basic random chunks generation;
 * Basic Scriptable Object architecture;
 
 # Used assets
