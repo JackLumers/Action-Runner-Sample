@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7540b91199b4b5d860e4a138ddb8f13, type: 3}
+  m_Name: PistolWeaponReference
+  m_EditorClassIdentifier: 
+  WeaponSettings:
+    CooldownMillis: 0
+    Damage: 1
+    DamageZonePrefab: {fileID: 3210307841730284267, guid: 85add79e054c6bc4cb340c88e0d10bae, type: 3}
+  RangedWeaponSettings:
+    ProjectileSpeed: 3
+    MaxShotDistance: 20
