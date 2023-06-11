@@ -64,7 +64,7 @@ namespace Character.Enemy
             _pickedSeconds = (float) (_random.NextDouble() 
                 * (_maxExposedSeconds - _minExposedSeconds) + _minExposedSeconds);
 
-            var isLeftPicked = _random.Next(0, 1) > 0;
+            var isLeftPicked = _random.Next(0, 2) > 0;
             var exposedPosition = isLeftPicked
                 ? _enemy.Cover.LeftExposedPoint.position
                 : _enemy.Cover.RightExposedPoint.position;

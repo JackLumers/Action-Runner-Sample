@@ -12,7 +12,7 @@ namespace Runner.ChunkGeneration
         [SerializeField] private Cover _playerCoverPrefab;
         [SerializeField] [Range(1, 100)] private int _enemyCoverSpawnPossibility = 30;
         
-        private System.Random _random = new();
+        private readonly System.Random _random = new();
 
         public Chunk Spawn()
         {
@@ -21,7 +21,7 @@ namespace Runner.ChunkGeneration
             
             foreach (var possibleCoverPoint in chunk.EnemiesCoversPossiblePositions)
             {
-                if (!(_random.Next(1, 100) >= _enemyCoverSpawnPossibility)) 
+                if (!(_random.Next(0, 100) > _enemyCoverSpawnPossibility)) 
                     continue;
                 
                 var cover = _enemyCoverPrefab.gameObject.Reuse<EnemyCover>();
