@@ -1,9 +1,9 @@
-using System;
 using System.Collections.Generic;
+using Character.Player.StateMachine;
+using Events;
 using JetBrains.Annotations;
 using ReferenceVariables;
 using UnityEngine;
-using UnityEngine.Events;
 using Weapons;
 
 namespace Character.Player
@@ -11,8 +11,10 @@ namespace Character.Player
     public class PlayerCharacter : BaseCharacter
     {
         [SerializeField] private IntVariable _healthVariable;
-        [SerializeField] protected UnityEvent _playerHealthChangedEvent;
-        [SerializeField] protected UnityEvent _playerDiedEvent;
+        [SerializeField] private GameEvent _playerHealthChangedEvent;
+        [SerializeField] private GameEvent _playerDiedEvent;
+        [SerializeField] private GameEvent _playerCoverTakenEvent;
+        [SerializeField] private GameEvent _playerCoverFreedEvent;
 
         [SerializeField]
         private List<BaseWeaponReference> _weaponReferences = new();
@@ -20,6 +22,8 @@ namespace Character.Player
         private int _selectedWeaponIndex = 0;
         private Transform _transform;
         private readonly List<BaseWeapon> _weapons = new();
+
+        private PlayerStateMachine _playerStateMachine;
 
         [CanBeNull] private BaseWeapon CurrentWeapon => 
             _weapons.Count > _selectedWeaponIndex ? _weapons[_selectedWeaponIndex] : null;
@@ -38,45 +42,83 @@ namespace Character.Player
             }
 
             _healthVariable.Value = CharacterStats.Health;
+
+            _playerStateMachine = new PlayerStateMachine(this);
+            _playerStateMachine.SetState(_playerStateMachine.PlayerMovingState);
         }
 
+        /// <inheritdoc cref="BaseCharacter.OnReinit"/>
         public override void OnReinit()
         {
-            _playerHealthChangedEvent?.Invoke();
+            _playerHealthChangedEvent?.Raise();
         }
-
-        private void FixedUpdate()
-        {
-            MoveSelf(Vector3.right);
-        }
-
+        
         public override void TakeDamage(int damage)
         {
             base.TakeDamage(damage);
             _healthVariable.Value = CharacterStats.Health;
             
-            _playerHealthChangedEvent?.Invoke();
+            _playerHealthChangedEvent?.Raise();
         }
 
-        protected override void OnDied()
+        private void FixedUpdate()
         {
-            base.OnDied();
-            _playerDiedEvent?.Invoke();
+            _playerStateMachine.OnFixedUpdate();
         }
         
+        public void OnFireInput()
+        {
+            _playerStateMachine.OnFireInput();
+        }
+        
+        public void OnSwitchWeaponInput()
+        {
+            if (_selectedWeaponIndex + 1 >= _weapons.Count)
+                _selectedWeaponIndex = 0;
+            else
+                _selectedWeaponIndex++;
+        }
+        
+        private void OnTriggerEnter(Collider other)
+        {
+            _playerStateMachine.OnTriggerEnter(other);
+        }
+        
+        public override void OnCoverTaken()
+        {
+            _playerCoverTakenEvent?.Raise();
+        }
+
+        public override void OnCoverFreed()
+        {
+            _playerCoverFreedEvent?.Raise();
+        }
+
+        public void OnEnemyDeath()
+        {
+            if (ReferenceEquals(Cover, null)) 
+                return;
+            
+            if (_playerStateMachine.CurrentState != _playerStateMachine.PlayerBehindCoverState) 
+                return;
+            
+            if (!Cover.Chunk.HasEnemies)
+            {
+                _playerStateMachine.SetState(_playerStateMachine.PlayerMovingState);
+            }
+        }
+
         public void FireSelectedWeapon()
         {
             var fireDirection = -(_transform.position - LookingPoint).normalized;
             
             CurrentWeapon?.TryFire(fireDirection);
         }
-
-        public void NextWeapon()
+        
+        protected override void OnDied()
         {
-            if (_selectedWeaponIndex + 1 >= _weapons.Count)
-                _selectedWeaponIndex = 0;
-            else
-                _selectedWeaponIndex++;
+            base.OnDied();
+            _playerDiedEvent?.Raise();
         }
     }
 }

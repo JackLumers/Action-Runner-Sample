@@ -46,7 +46,7 @@ namespace Character.Player
                     SetDebugPointer(hitPoint, _debugMode);
 
                     _playerCharacter.LookingPoint = hitPoint;
-                    _playerCharacter.FireSelectedWeapon();
+                    _playerCharacter.OnFireInput();
                 }
             }
         }
