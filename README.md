@@ -1,5 +1,5 @@
-# Endless-Runner-Sample
-Action runner sample that I made as a test task project for my employment opportunity. 
+# Action-Runner-Sample
+A game sample that I made as a test task project for my employment opportunity. 
 
 Done in 2 days using parts of code from my other sample projects. Really need refactoring, but it would require exceeding test task time constraints.
 
