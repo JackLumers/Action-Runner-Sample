@@ -7,12 +7,13 @@ Done in 2 days using parts of code from my other sample projects. Really needs s
 * Android support;
 * Object pooling;
 * Basic random chunks generation;
-* Basic Scriptable Object architecture (partly, because of time constraints);
+* Basic Scriptable Object architecture (partly);
 
 # Possible improvements
 * Animations, fancy models;
 * Player and world repositioning, so no problems with large position values and floating point precision on long runs;
 * Player jitter fix when moving in cover.
+* Scriptable Object architecture enhancements.
 
 # Used assets
 * [Cinemachine](https://docs.unity3d.com/Packages/com.unity.cinemachine@2.3/manual/index.html) - Simple and flexible camera control;
