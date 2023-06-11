@@ -62,9 +62,9 @@ namespace Runner.ChunkGeneration
             {
                 var chunk = chunkNode.Value;
                 var chunkPosition = chunk.transform.position;
-                
+
                 newChunkPosition = new Vector3(
-                    chunk.End.position.x + newChunk.BoxCollider.size.x / 2, 
+                    chunkPosition.x + chunk.BoxCollider.size.x / 2 + newChunk.BoxCollider.size.x / 2, 
                     chunkPosition.y, chunkPosition.z);
             }
             else
@@ -100,7 +100,7 @@ namespace Runner.ChunkGeneration
                 var chunkPosition = chunk.transform.position;
                 
                 newChunkPosition = new Vector3(
-                    chunk.Start.position.x - newChunk.BoxCollider.size.x / 2, 
+                    chunkPosition.x - chunk.BoxCollider.size.x / 2 - newChunk.BoxCollider.size.x / 2, 
                     chunkPosition.y, chunkPosition.z);
             }
             else
@@ -135,8 +135,6 @@ namespace Runner.ChunkGeneration
         
         private void OnPlayerLeftChunk(Chunk chunk)
         {
-            Debug.Log("Left");
-            
             chunk.PlayerLeftChunk -= OnPlayerLeftChunk;
             RemoveFirstChunk();
             AddLastChunk(false);

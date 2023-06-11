@@ -18,13 +18,12 @@ namespace Character
         [SerializeField] private Collider _collider;
         [field:SerializeField] public Transform WeaponShotTransform { get; private set; }
 
-        private Rigidbody _rigidbody;
+        public Rigidbody Rigidbody { get; private set; }
         private CharacterMovingController _characterMovingController;
         private CharacterAnimationController _characterAnimationController;
         
         private CancellationTokenSource _invincibilityStatusChangeCts;
         private readonly HashSet<string> _invincibilityFlags = new();
-        private Faction _faction1;
         
         protected CharacterStats CharacterStats;
 
@@ -37,11 +36,13 @@ namespace Character
         public event Action<BaseCharacter> Died;
         
         public Cover Cover { get; set; }
+        public abstract void OnCoverTaken();
+        public abstract void OnCoverFreed();
 
         private void Awake()
         {
-            _rigidbody = GetComponent<Rigidbody>();
-            _characterMovingController = new CharacterMovingController(_rigidbody, _modelTransform);
+            Rigidbody = GetComponent<Rigidbody>();
+            _characterMovingController = new CharacterMovingController(Rigidbody, _modelTransform);
             _characterAnimationController = new CharacterAnimationController(_animator, _modelMeshRenderer);
             
             Reinit();
@@ -67,6 +68,7 @@ namespace Character
             OnReinit();
         }
 
+        /// <inheritdoc cref="Reinit"/>
         public virtual void OnReinit() { }
 
         public void MoveSelf(Vector3 direction)
@@ -91,6 +93,11 @@ namespace Character
             
             _characterAnimationController.AnimateMoving(true);
         }
+
+        public void SetZeroVelocity()
+        {
+            _characterMovingController.SetZeroVelocity();
+        }
         
         public virtual void TakeDamage(int damage)
         {
@@ -108,6 +115,8 @@ namespace Character
         {
             // There could be animation
             gameObject.SetActive(false);
+            
+            Cover?.Free();
             
             Died?.Invoke(this);
         }
@@ -160,6 +169,8 @@ namespace Character
             _invincibilityStatusChangeCts?.Dispose();
             _invincibilityStatusChangeCts = null;
 
+            Cover?.Free();
+            
             Died = null;
 
             InheritOnDestroy();

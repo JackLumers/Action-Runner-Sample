@@ -18,11 +18,11 @@ namespace Weapons.Ranged.Pistol
             var damageZone = WeaponSettings.DamageZonePrefab.gameObject.Reuse<DamageZone>();
             damageZone.Init(WeaponSettings.Damage, Owner.Faction);
 
-            var ownerPosition = OwnerWeaponShotTransform.position;
+            var ownerPosition = Owner.transform.position;
             var shotRelativePosition =
                 ownerPosition + direction * RangedWeaponSettings.MaxShotDistance;
             
-            damageZone.transform.position = ownerPosition;
+            damageZone.transform.position = OwnerWeaponShotTransform.position;
             damageZone.Affected += OnDamageZoneAffected;
 
             damageZone.MoveTo(shotRelativePosition, RangedWeaponSettings.ProjectileSpeed, ReleaseDamageZone);

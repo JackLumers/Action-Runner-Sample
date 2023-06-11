@@ -11,6 +11,7 @@ namespace Runner
         [SerializeField] private Transform _playerSpawnPoint;
 
         [SerializeField] private CinemachineVirtualCamera _playerViewCamera;
+        [SerializeField] private CinemachineVirtualCamera _playerBehindCoverCamera;
 
         [SerializeField] private ChunkManager _chunkManager;
         
@@ -24,6 +25,10 @@ namespace Runner
             
             _playerViewCamera.Follow = _playerCharacterTransform;
             _playerViewCamera.LookAt = _playerCharacterTransform;
+
+            _playerBehindCoverCamera.Follow = _playerCharacterTransform;
+            _playerBehindCoverCamera.LookAt = _playerCharacterTransform;
+            
             _playerViewCamera.gameObject.SetActive(true);
 
             _chunkManager.Init(_playerCharacterTransform);

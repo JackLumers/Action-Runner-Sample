@@ -38,7 +38,12 @@ namespace Character
                 ClampVelocity(maxSpeed);
             }
         }
-        
+
+        public void SetZeroVelocity()
+        {
+            _rigidbody.velocity = Vector3.zero;
+        }
+
         public void Rotate(Vector3 rotation)
         {
             _modelTransform.rotation = Quaternion.Euler(rotation);
