@@ -1,7 +1,7 @@
 # Action-Runner-Sample
 A game sample that I made as a test task project for my employment opportunity. 
 
-Done in 2 days using parts of code from my other sample projects. Really needs some refactoring, but it would require exceeding test task time constraints.
+Done in 2 days using bits of code from my other sample projects. Really needs some refactoring, but it would require exceeding test task time constraints.
 
 # Features
 * Android support;
